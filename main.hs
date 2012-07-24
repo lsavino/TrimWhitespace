@@ -8,10 +8,11 @@ main = do
     inFD <- openFile "sample_input.txt" ReadMode
     inString <- hGetContents inFD
     outFD <- openFile "sample_output.txt" WriteMode
-    let fileLines = lines inString
-        trimmedFileLines = map trimLine fileLines
-    mapM putStrLn trimmedFileLines
-    return ()
+
+    let trimmedFileLines = map trimLine $ lines inString
+    mapM (hPutStrLn outFD) trimmedFileLines
+
+    hClose outFD
 
 trimLine :: String -> String
 trimLine str = reverse $ dropWhile isSpace $ reverse str
