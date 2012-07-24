@@ -1,7 +1,8 @@
 module Main where
 
-import System.IO
 import Data.Char
+import System.Directory
+import System.IO
 
 main :: IO ()
 main = do
@@ -12,7 +13,10 @@ main = do
     let trimmedFileLines = map trimLine $ lines inString
     mapM (hPutStrLn outFD) trimmedFileLines
 
+    removeFile "sample_input.txt"
+    renameFile "sample_output.txt" "sample_input.txt"
     hClose outFD
+    hClose inFD
 
 trimLine :: String -> String
 trimLine str = reverse $ dropWhile isSpace $ reverse str
