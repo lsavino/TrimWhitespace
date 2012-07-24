@@ -14,7 +14,5 @@ main = do
     return ()
 
 trimLine :: String -> String
-trimLine str = 
-    let reversed = reverse str
-    in dropWhile isSpace reversed
+trimLine str = reverse $ dropWhile isSpace $ reverse str
 
