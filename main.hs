@@ -11,14 +11,14 @@ main = do
     let fileName = head args
     inFD <- openFile fileName ReadMode
     inString <- hGetContents inFD
-    outFD <- openFile "sample_output.txt" WriteMode
+    (tempFileName, tempFD) <- (openTempFileWithDefaultPermissions "." "sample_output.txt")
 
     let trimmedFileLines = map trimLine $ lines inString
-    mapM (hPutStrLn outFD) trimmedFileLines
+    mapM (hPutStrLn tempFD) trimmedFileLines
 
     removeFile fileName
-    renameFile "sample_output.txt" fileName
-    hClose outFD
+    renameFile tempFileName fileName
+    hClose tempFD
     hClose inFD
 
 trimLine :: String -> String
